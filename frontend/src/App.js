@@ -1,50 +1,55 @@
-/*import logo from './logo.svg';
+// src/App.js
+
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState([]);
+
+  const handleInputChange = (e) => {
+    setInput(e.target.value);
+  };
+
+  const handleSendMessage = () => {
+    if (input.trim() !== '') {
+      setMessages([...messages, { text: input, type: 'user' }]);
+      setInput('');
+
+      // Simulate a response from the backend (replace with actual API call)
+      fetch('http://localhost:8000/Travel_Agent_Chatbot/chatbot/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: input }),
+      })
+        .then(response => response.json())
+        .then(data => setMessages([...messages, { text: data.message, type: 'bot' }]))
+        .catch(error => console.error('Error sending message:', error));
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;*/
-
-// frontend/src/App.js
-
-// frontend/src/App.js
-
-import React, { useState, useEffect } from 'react';
-
-function App() {
-  const [data, setData] = useState('');
-
-  useEffect(() => {
-    // Fetch data from Django API endpoint
-    fetch('http://localhost:8000/api/data/')  // Update with your Django API endpoint
-      .then(response => response.json())
-      .then(data => setData(data.message))
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
-
-  return (
-    <div>
-      <h1>Your React App</h1>
-      <p>{data}</p>
+      <div className="chat-container">
+        <div className="messages">
+          {messages.map((message, index) => (
+            <div key={index} className={message.type}>
+              {message.text}
+            </div>
+          ))}
+        </div>
+        <div className="input-container">
+          <input
+            type="text"
+            placeholder="Type your message..."
+            value={input}
+            onChange={handleInputChange}
+          />
+          <button onClick={handleSendMessage}>Send</button>
+        </div>
+      </div>
     </div>
   );
 }
