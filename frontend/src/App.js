@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+/*import logo from './logo.svg';
 import './App.css';
 
 function App() {
@@ -18,6 +18,33 @@ function App() {
           Learn React
         </a>
       </header>
+    </div>
+  );
+}
+
+export default App;*/
+
+// frontend/src/App.js
+
+// frontend/src/App.js
+
+import React, { useState, useEffect } from 'react';
+
+function App() {
+  const [data, setData] = useState('');
+
+  useEffect(() => {
+    // Fetch data from Django API endpoint
+    fetch('http://localhost:8000/api/data/')  // Update with your Django API endpoint
+      .then(response => response.json())
+      .then(data => setData(data.message))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+
+  return (
+    <div>
+      <h1>Your React App</h1>
+      <p>{data}</p>
     </div>
   );
 }
