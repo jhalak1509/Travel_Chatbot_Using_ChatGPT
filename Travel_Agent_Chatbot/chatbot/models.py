@@ -2,20 +2,24 @@
 
 from django.db import models
 
+class TravelAgent(models.Model):
+    name = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+
+class TravelPackage(models.Model):
+    agent = models.ForeignKey(TravelAgent, on_delete=models.CASCADE)
+    destination = models.CharField(max_length=255)
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
+
 class City(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
 class Distance(models.Model):
-    from_city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='distances_from')
-    to_city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='distances_to')
-    distance = models.FloatField()
+    source_city = models.ForeignKey(City, related_name='source_city', on_delete=models.CASCADE)
+    destination_city = models.ForeignKey(City, related_name='destination_city', on_delete=models.CASCADE)
+    distance_value = models.FloatField()
 
 class FlightTime(models.Model):
-    from_city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='flight_times_from')
-    to_city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='flight_times_to')
-    flight_time = models.CharField(max_length=50)
-
-class TravelPackage(models.Model):
-    name = models.CharField(max_length=255)
-    destinations = models.ManyToManyField(City)
-    cost = models.DecimalField(max_digits=10, decimal_places=2)
+    source_city = models.ForeignKey(City, related_name='flight_source_city', on_delete=models.CASCADE)
+    destination_city = models.ForeignKey(City, related_name='flight_destination_city', on_delete=models.CASCADE)
+    flight_time_hours = models.FloatField()
