@@ -2,20 +2,28 @@ import os
 import django
 from faker import Faker
 from random import randint
-from Travel_Agent_Chatbot.chatbot.models import City, Distance, FlightTime, TravelPackage, TravelAgent
 
-# Set up Django
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Travel_Agent_Chatbot.settings')
+# Set the DJANGO_SETTINGS_MODULE environment variable
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Travel_Agent_Chatbot.settings")
+
+# Configure Django
 django.setup()
+
+from chatbot.models import City, Distance, FlightTime, TravelPackage, TravelAgent
+
 
 fake = Faker()
 
 def create_cities():
-    existing_cities_count = City.objects.count()
-    required_cities_count = 1000 - existing_cities_count
+    fake = Faker()
+    existing_city_names = set(City.objects.values_list('name', flat=True))
 
-    for _ in range(required_cities_count):
-        City.objects.create(name=fake.city())
+    for _ in range(1000):
+        unique_city_name = fake.unique.city()
+        while unique_city_name in existing_city_names:
+            unique_city_name = fake.unique.city()
+        
+        City.objects.create(name=unique_city_name)
 
 def create_distances():
     existing_distances_count = Distance.objects.count()
@@ -46,7 +54,7 @@ def create_flight_times():
         FlightTime.objects.create(
             source_city=source_city,
             destination_city=destination_city,
-            flight_time_value=randint(1, 10)
+            flight_time_hours=randint(1, 10)
         )
 
 def create_travel_agents():
@@ -70,7 +78,7 @@ def create_travel_packages():
         TravelPackage.objects.create(
             agent=agent,
             destination=destination,
-            package_name=fake.word(),
+            
             cost=randint(500, 5000)
         )
 
