@@ -17,9 +17,15 @@ def interpret_user_intent(user_message):
         if ent.label_ == 'GPE':
             user_intent['city'] = ent.text
 
-    # Identifying if user is asking about travel packages
+     # Identifying if user is asking about travel packages
     if 'travel package' in user_message.lower():
         user_intent['intent'] = 'travel_package'
+        # Extracting travel agent and destination
+        for token in doc:
+            if token.dep_ == 'amod' and token.head.text == 'agent':
+                user_intent['travel_agent'] = token.text
+            if token.dep_ == 'pobj' and token.head.text == 'to':
+                user_intent['destination'] = token.text
 
     # Identifying if user is asking about distance between cities
     if 'distance' in user_message.lower() and any(token.text.lower() == 'between' for token in doc):
