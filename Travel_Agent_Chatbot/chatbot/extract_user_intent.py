@@ -1,5 +1,3 @@
-# chatbot/nlp.py
-
 import spacy
 
 # Load the spaCy English model
