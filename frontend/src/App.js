@@ -17,7 +17,7 @@ function App() {
       setInput('');
 
       // Simulate a response from the backend (replace with actual API call)
-      fetch('http://localhost:8000/Travel_Agent_Chatbot/chatbot/', {
+      fetch('http://localhost:8000/chatbot/handle_user_query/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
