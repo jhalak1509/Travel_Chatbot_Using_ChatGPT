@@ -20,22 +20,27 @@ function Chatbot() {
 
   return (
     <Container>
-      <h1>Chatbot</h1>
-      <div className="chat">
-        {chat.map((chatMessage, index) => (
-          <div key={index} className={`message ${chatMessage.isUser ? 'user' : 'chatbot'}`}>
-            {chatMessage.message}
-          </div>
-        ))}
+      <div className="chat-container">
+        <div className="chat-header">
+          <h1>Travel Chatbot</h1>
+          <img src="/assets/TravelChatbot.png" alt="Chatbot Icon" className="chatbot-icon" />
+        </div>
+        <div className="messages">
+          {chat.map((chatMessage, index) => (
+            <div key={index} className={`message ${chatMessage.isUser ? 'user' : 'chatbot'}`}>
+              {chatMessage.message}
+            </div>
+          ))}
+        </div>
+        <Form onSubmit={(e) => { e.preventDefault(); sendMessage(); }}>
+          <Form.Group className="input-container">
+            <Form.Control type="text" placeholder="Type your message here" value={message} onChange={(e) => setMessage(e.target.value)} />
+            <Button variant="primary" type="submit">
+              Send
+            </Button>
+          </Form.Group>
+        </Form>
       </div>
-      <Form onSubmit={(e) => { e.preventDefault(); sendMessage(); }}>
-        <Form.Group>
-          <Form.Control type="text" placeholder="Type your message here" value={message} onChange={(e) => setMessage(e.target.value)} />
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          Send
-        </Button>
-      </Form>
     </Container>
   );
 }
