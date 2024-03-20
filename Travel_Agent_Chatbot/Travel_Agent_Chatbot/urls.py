@@ -22,14 +22,12 @@ from chatbot import views
 
 
 
-""" urlpatterns = [
-     path('admin/', admin.site.urls),
-     path('HandleUserQueryView/', views.HandleUserQueryView),
-]"""
-
 urlpatterns = [
-    path('handle_user_query/', views.handle_user_query, name='handle_user_query'),
-    # ... other URL patterns if any
+    
+    path('admin/', admin.site.urls),
+    path('', views.handle_user_query, name='index'),
+    path('handle_user_query/', views.handle_user_query, name='index'),
+    # other URL patterns
 ]
 
 """urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)"""

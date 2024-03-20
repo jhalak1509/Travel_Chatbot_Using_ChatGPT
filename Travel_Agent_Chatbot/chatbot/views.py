@@ -4,34 +4,45 @@
     #return HttpResponse("Hello from the root path!")
 
 # chatbot/views.py
-
+"""
 import json
+from django.shortcuts import redirect
 import openai
 from django.http import JsonResponse
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from .extract_user_intent import interpret_user_intent
-from .models import City, Distance, FlightTime, TravelPackage, TravelAgent
+from rest_framework.decorators import api_view
+from chatbot.utils import analyze_request_with_openai, generate_sql_with_openai, execute_sql_query, handle_openai_request
+
+
 
 # Setting OpenAI API key
-openai.api_key = 'jhalak_surve'
+openai.api_key = 'OPENAI_API_KEY'
 
-@csrf_exempt
+
+@api_view(['POST'])
 def handle_user_query(request):
-    data = json.loads(request.body)
-    user_message = data['message']
+     # Parse the JSON from the request body
+            data = json.loads(request.body)
+            user_input = data.get('user_input')
 
-    # Using NLP to interpret user intent
-    user_intent = interpret_user_intent(user_message)
+            # Proceed with handling the user input...
+            # Determine the type of request with OpenAI
+            classification = analyze_request_with_openai(user_input)
 
-    # Check if user is asking about travel-related queries
-    if user_intent.get('intent') == 'travel_package':
-        return handle_travel_related_queries(user_message, user_intent)
+            if classification == 'database':
+                # Generate SQL with OpenAI
+                sql_query = generate_sql_with_openai(user_input)
+                # Execute the SQL query and fetch data from the database
+                data = execute_sql_query(sql_query)
+                response_data = {'data': data}
+            else:
+                # Handle general response with OpenAI
+                response_data = {'data': handle_openai_request(user_input)}
 
-    # If no specific intent is detected, use ChatGPT or provide a default response
-    response_message = generate_chatgpt_response(user_message)
-    return JsonResponse({'message': response_message})
+            return JsonResponse(response_data, safe=False)"""
 
-def handle_travel_related_queries(user_message, user_intent):
+"""def handle_travel_related_queries(user_message, user_intent):
 
     # Check if the user is asking about travel packages, travel agents, or costs
     if user_intent.get('intent') == 'travel_package':
@@ -95,6 +106,7 @@ def generate_chatgpt_response(user_message):
     # Making a request to the OpenAI GPT API to get a response
     try:
         response = openai.Completion.create(
+            model="gpt-3.5-turbo",
             engine="text-davinci-002",  
             prompt=user_message,
             max_tokens=150,
@@ -106,18 +118,18 @@ def generate_chatgpt_response(user_message):
         print(f"Error generating ChatGPT response: {e}")
         chatgpt_response = "Sorry, there was an error processing your request."
 
-    return chatgpt_response
+    return chatgpt_response"""
 
 
-"""# chatbot/views.py
-
+# chatbot/views.py
+"""
 import json
 import openai
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
-from .extract_user_intent import interpret_user_intent
+#from .extract_user_intent import interpret_user_intent
 from .models import City, Distance, FlightTime, TravelPackage, TravelAgent
 
 # Setting OpenAI API key
@@ -220,3 +232,45 @@ class HandleUserQueryView(APIView):
 
         return Response({'message': chatgpt_response})
 """
+from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from .generate_response import nl_to_sql, gk_answer, extract_intents, execute_sql_query
+from flask import request, jsonify
+from openai import OpenAI
+import os
+
+
+
+@api_view(['POST'])
+def handle_user_query(request):
+
+    openai_api_key = "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"
+    client = OpenAI(api_key="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")
+
+    # Extract the user query from the request
+    user_query = request.data.get('message')  # Update to 'message'
+
+    #query_type, named_entities = interpret_query(user_query)
+
+    # Process the user query and generate a response using backend logic
+    #response = generate_response(user_query)
+
+    # Return the response as JSON
+    #return JsonResponse({'message': response})
+    intent = extract_intents(user_query)
+
+        # Handle different intents
+    if intent == 'DATABASE_QUERY':
+        sql_query = nl_to_sql(user_query, openai_api_key)  # Convert NL query to SQL
+        response = execute_sql_query(sql_query)
+        #formatted_response = format_response(response)
+        return JsonResponse({'message': response})
+
+    elif intent == 'GENERAL_INQUIRY':
+        response = gk_answer(user_query)  # Get response using GPT-3
+        return JsonResponse({'message': response})
+
+    else:
+        return JsonResponse({'error': 'Intent not recognized'})
+    
+
