@@ -234,7 +234,7 @@ class HandleUserQueryView(APIView):
 """
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from .generate_response import nl_to_sql, gk_answer, extract_intents, execute_sql_query
+from .generate_response import nl_to_sql, general_query, extract_intents, sql_response_to_nl
 from flask import request, jsonify
 from openai import OpenAI
 import os
@@ -244,8 +244,8 @@ import os
 @api_view(['POST'])
 def handle_user_query(request):
 
-    openai_api_key = "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"
-    client = OpenAI(api_key="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")
+    openai_api_key = "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"
+    client = OpenAI(api_key="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")
 
     # Extract the user query from the request
     user_query = request.data.get('message')  # Update to 'message'
@@ -262,12 +262,12 @@ def handle_user_query(request):
         # Handle different intents
     if intent == 'DATABASE_QUERY':
         sql_query = nl_to_sql(user_query, openai_api_key)  # Convert NL query to SQL
-        response = execute_sql_query(sql_query)
+        response = sql_response_to_nl(user_query, sql_query)
         #formatted_response = format_response(response)
         return JsonResponse({'message': response})
 
     elif intent == 'GENERAL_INQUIRY':
-        response = gk_answer(user_query)  # Get response using GPT-3
+        response = general_query(user_query)  # Get response using GPT-3
         return JsonResponse({'message': response})
 
     else:

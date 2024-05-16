@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 import json
 
 
-client = OpenAI(api_key="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") 
+client = OpenAI(api_key="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") 
 
 # Load the spaCy English model
 """nlp = spacy.load("en_core_web_sm")
@@ -139,7 +139,7 @@ def generate_chatgpt_response(user_query):
 """
 def nl_to_sql(question, openai_api_key):
     
-    client = OpenAI(api_key="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")
+    client = OpenAI(api_key="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")
     # Initialize the OpenAI API client
     #openai.api_key = openai_api_key
 
@@ -194,7 +194,7 @@ def nl_to_sql(question, openai_api_key):
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
         messages=[
-        {"role": "system", "content":f"You are a travel agent chatbot that can convert natural language queries into SQL. Given the following schema information, please provide the SQL query for the given question:{schema_info}User Question: {question}",
+        {"role": "system", "content":f"You are a travel agent chatbot that can convert natural language queries into SQL. Given the following schema information, please provide the SQL query for the given question:{schema_info}User Question: {question}. If the query is a travel package query, please also fetch the agent name and location as well.",
         }
         ]
         
@@ -222,9 +222,83 @@ def execute_sql_query(sql_query):
     #rows = [dict(row.items()) for row in result]
     #return json.dumps(rows) 
 
-def gk_answer(question):
+def sql_response_to_nl(question,sql_query):
     
-    client = OpenAI(api_key="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")
+    client = OpenAI(api_key="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")
+
+    # executing the sql query and storing it in a variable 
+    response = execute_sql_query(sql_query)
+    
+    # Schema information describing the database tables
+    schema_info = """
+    Database Schema:
+    
+    1. Table: travel_agents
+       Columns:
+       - id (Integer, Primary Key): Unique identifier for travel agents.
+       - name (String(255)): Name of the travel agent.
+       - location (String(255)): Location of the travel agent.
+       
+    2. Table: travel_packages
+       Columns:
+       - id (Integer, Primary Key): Unique identifier for travel packages.
+       - agent_id (Integer, Foreign Key): References id in travel_agents table.
+       - packagename (String(255)): Name of the travel package.
+       - description (String(400)): Description of the travel package.
+       - destination (String(255)): Destination of the travel package.
+       - cost (Float): Cost of the travel package.
+       - origin_city_id (Integer, Foreign Key): References id in cities table.
+       - destination_city_id (Integer, Foreign Key): References id in cities table.
+       - valid_from (DateTime): Validity start date of the package.
+       - valid_to (DateTime): Validity end date of the package.
+       
+    3. Table: cities
+       Columns:
+       - id (Integer, Primary Key): Unique identifier for cities.
+       - Cityname (String(255)): Name of the city.
+       - country (String(255)): Country of the city.
+       - timezone (String(255)): Timezone of the city.
+       
+    4. Table: airports
+       Columns:
+       - id (Integer, Primary Key): Unique identifier for airports.
+       - city_id (Integer, Foreign Key): References id in cities table.
+       - Airportname (String(255)): Name of the airport.
+       - iata_code (String(255), Unique): IATA code of the airport.
+       
+    5. Table: flights
+       Columns:
+       - id (Integer, Primary Key): Unique identifier for flights.
+       - departure_airport_id (Integer, Foreign Key): References id in airports table.
+       - arrival_airport_id (Integer, Foreign Key): References id in airports table.
+       - flight_duration (Float): Duration of the flight in hours.
+       - operating_airlines (String(255)): Operating airlines for the flight.
+       
+    """
+
+    # Send a completion request to OpenAI's API
+    completion = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+        {"role": "system", "content":f"You are a travel agent chatbot that can convert SQL query result to a natural language. Given the following schema information, the sql query in question, and the generated query response please provide a human readable format for the given question:{schema_info} User Question: {question} SQL Query Question: {sql_query} Generated SQL query result: {response} Please note that only include Travel Package Name, Agent details, Cost, Source city, destination city and the dates. And please generate the response in a way that is human readable and mention all the details in different lines, not just a single line. If there are two or more rows returned then please provide answer like package details 1, package details 2 and so on",
+        }
+        ]
+        
+    )
+
+    # Extract the SQL query from the completion response
+    response_content = completion.choices[0].message.content. strip()
+    # Remove leading and trailing ```sql characters
+    #response_content = response_content.strip('```sql').strip()
+    # Remove newline characters from the response content
+    #sql_query = response_content.replace('\n', ' ').strip()
+
+    return response_content
+
+
+def general_query(question):
+    
+    client = OpenAI(api_key="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")
 
     completion = client.chat.completions.create(
         model="gpt-3.5-turbo",
@@ -238,7 +312,7 @@ def gk_answer(question):
 
 def format_answer(question, answer, ):
     
-    client = OpenAI(api_key="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")
+    client = OpenAI(api_key="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")
 
     # Prepare the prompt for GPT-3 to generate a user-friendly response
     prompt = f"Translate the following database answer into a detailed, user-friendly response based on the original question:\nQuestion: {question}\nAnswer from database: {answer}\nFormatted Answer:"

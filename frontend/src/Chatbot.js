@@ -10,10 +10,11 @@ function Chatbot() {
     // send a POST request to the chatbot API with the user's message
     const response = await axios.post('http://localhost:8000/handle_user_query/', { message });
 
-    // update the chat state with the chatbot's response
-    setChat([...chat, { message, isUser: true }]);
-    setChat([...chat, { message: response.data.message, isUser: false }]);
-
+    setChat(prevChat => [
+        ...prevChat,
+        { message, isUser: true },
+        { message: response.data.message, isUser: false }
+      ]);
     // clear the message input field
     setMessage('');
   }
@@ -22,8 +23,10 @@ function Chatbot() {
     <Container>
       <div className="chat-container">
         <div className="chat-header">
-          <h1>Travel Chatbot</h1>
-          <img src="/assets/TravelChatbot.png" alt="Chatbot Icon" className="chatbot-icon" />
+            <h1 className="title">Travel Assistant</h1>
+            <div className="image-container">
+            {/* Background image will be set using CSS */}
+            </div>        
         </div>
         <div className="messages">
           {chat.map((chatMessage, index) => (

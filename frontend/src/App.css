@@ -1,29 +1,36 @@
 /* Add custom CSS styles to make your chatbot look pretty */
 .chat-container {
   width: 80%;
-  margin: 50px auto;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  margin: 60px auto 60px;
+  border: 1px solid #ccc;;
+  border-radius: 10px;
   padding: 20px;
   background-color: #f9f9f9;
+  text-align: left; /* Ensure text alignment to the left within the container */
 }
 
 .chat-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  flex-direction: column; /* Align children vertically */
   margin-bottom: 20px;
+  text-align: center; /* Center the contents horizontally */
 }
 
-.chat-header h1 {
+.title {
   font-size: 24px;
   margin: 0;
 }
-
-.chatbot-icon {
-  width: 40px;
-  height: 40px;
-}
+/*
+.image-container {
+  width: 100px; /* Adjust width as needed */
+  /* height: 100px; /* Adjust height as needed */
+  /*background-image: url('{% static "Travel_Agent_Chatbot/Travel_Agent_Chatbot.png" %}'); /* Specify the path to your image */
+ /* background-size: cover; /* Ensure the image covers the container */
+  /*background-position: center; /* Center the image */
+ /* margin-top: 10px; /* Add margin to create space between title and image 
+}*/
 
 .messages {
   max-height: 300px;
@@ -32,20 +39,26 @@
 
 .message {
   padding: 8px 12px;
-  margin-bottom: 10px;
+  margin-bottom: 8px; /* Adjust margin as needed */
   border-radius: 5px;
+  max-width: 40%; /* Set a maximum width for the message box */
+  word-wrap: break-word; /* Allow long messages to wrap */
 }
 
 .user {
-  background-color: #4caf50;
+  background-color: #0ca611;
   color: white;
   text-align: left;
+  border-top-left-radius: 0; /* Remove border radius on the top left corner */
+  margin-right: auto; /* Add margin to the right to separate the user message from the chatbot message */
 }
 
 .chatbot {
-  background-color: #2196f3;
+  background-color: #0d60a5;
   color: white;
   text-align: right;
+  border-top-right-radius: 0; /* Remove border radius on the top right corner */
+  margin-left: auto; /* Add margin to the left to separate the chatbot message from the user message */
 }
 
 .input-container {

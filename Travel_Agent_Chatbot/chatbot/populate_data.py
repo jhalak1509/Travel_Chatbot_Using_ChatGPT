@@ -1,7 +1,7 @@
 from sqlalchemy.orm import sessionmaker
 from models import TravelAgent, TravelPackage, City, Airport, Flight
 from datetime import datetime
-from database import engine, Base
+from .database import engine, Base
 
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -52,16 +52,16 @@ packages_data = [
     {'agent_id': 8, 'packagename': 'Cape Town Escapade', 'description': 'Discover the beauty of South Africa.', 'destination': 'Cape Town', 'cost': 2400.00, 'origin_city_id': 8, 'destination_city_id': 8, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
     {'agent_id': 9, 'packagename': 'Canadian Adventure', 'description': 'Explore the wilderness of Canada.', 'destination': 'Toronto', 'cost': 2100.00, 'origin_city_id': 9, 'destination_city_id': 9, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
     {'agent_id': 10, 'packagename': 'Aloha Hawaii', 'description': 'Relax on the beautiful beaches of Hawaii.', 'destination': 'Honolulu', 'cost': 2600.00, 'origin_city_id': 10, 'destination_city_id': 10, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
-    {'agent_id': 11, 'packagename': 'Safari Expedition', 'description': 'Embark on a thrilling safari in Kenya.', 'destination': 'Nairobi', 'cost': 2900.00, 'origin_city_id': 11, 'destination_city_id': 11, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
-    {'agent_id': 12, 'packagename': 'Icelandic Adventure', 'description': 'Witness the natural wonders of Iceland.', 'destination': 'Reykjavik', 'cost': 2300.00, 'origin_city_id': 12, 'destination_city_id': 12, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
-    {'agent_id': 13, 'packagename': 'Greek Odyssey', 'description': 'Explore the history and beauty of Greece.', 'destination': 'Athens', 'cost': 2400.00, 'origin_city_id': 13, 'destination_city_id': 13, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
-    {'agent_id': 14, 'packagename': 'Island Paradise', 'description': 'Relax on the beaches of Bali.', 'destination': 'Bali', 'cost': 2700.00, 'origin_city_id': 14, 'destination_city_id': 14, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
-    {'agent_id': 15, 'packagename': 'Alpine Retreat', 'description': 'Experience the beauty of the Swiss Alps.', 'destination': 'Zurich', 'cost': 2200.00, 'origin_city_id': 15, 'destination_city_id': 15, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
-    {'agent_id': 16, 'packagename': 'Disney Magic', 'description': 'Experience the magic of Disney in Orlando.', 'destination': 'Orlando', 'cost': 2800.00, 'origin_city_id': 16, 'destination_city_id': 16, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
-    {'agent_id': 17, 'packagename': 'Spiritual Journey', 'description': 'Embark on a spiritual journey in Varanasi.', 'destination': 'Varanasi', 'cost': 1900.00, 'origin_city_id': 17, 'destination_city_id': 17, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
-    {'agent_id': 18, 'packagename': 'Tropical Escape', 'description': 'Relax in the tropical paradise of Fiji.', 'destination': 'Fiji', 'cost': 2500.00, 'origin_city_id': 18, 'destination_city_id': 18, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
-    {'agent_id': 19, 'packagename': 'Amazon Adventure', 'description': 'Explore the Amazon rainforest in Manaus.', 'destination': 'Manaus', 'cost': 2900.00, 'origin_city_id': 19, 'destination_city_id': 19, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
-    {'agent_id': 20, 'packagename': 'Arctic Expedition', 'description': 'Explore the Arctic wilderness in Longyearbyen.', 'destination': 'Longyearbyen', 'cost': 3000.00, 'origin_city_id': 20, 'destination_city_id': 20, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
+    {'agent_id': 1, 'packagename': 'Broadway Experience', 'description': 'Enjoy the best of Broadway in New York City.', 'destination': 'New York', 'cost': 1900.00, 'origin_city_id': 1, 'destination_city_id': 1, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
+    {'agent_id': 2, 'packagename': 'Historic London Tour', 'description': 'Explore the rich history of London.', 'destination': 'London', 'cost': 2100.00, 'origin_city_id': 2, 'destination_city_id': 2, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
+    {'agent_id': 3, 'packagename': 'Great Barrier Reef Adventure', 'description': 'Discover the wonders of the Great Barrier Reef.', 'destination': 'Sydney', 'cost': 2800.00, 'origin_city_id': 3, 'destination_city_id': 3, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
+    {'agent_id': 4, 'packagename': 'Romantic Paris Getaway', 'description': 'Experience romance in the city of love.', 'destination': 'Paris', 'cost': 2500.00, 'origin_city_id': 4, 'destination_city_id': 4, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
+    {'agent_id': 5, 'packagename': 'Golden State Adventure', 'description': 'Experience the highlights of California.', 'destination': 'Los Angeles', 'cost': 1900.00, 'origin_city_id': 5, 'destination_city_id': 5, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
+    {'agent_id': 6, 'packagename': 'Tokyo City Tour', 'description': 'Explore the sights and sounds of Tokyo.', 'destination': 'Tokyo', 'cost': 2600.00, 'origin_city_id': 6, 'destination_city_id': 6, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
+    {'agent_id': 7, 'packagename': 'Rio Carnival Experience', 'description': 'Witness the excitement of the Rio Carnival.', 'destination': 'Rio de Janeiro', 'cost': 2200.00, 'origin_city_id': 7, 'destination_city_id': 7, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
+    {'agent_id': 8, 'packagename': 'Cape Winelands Tour', 'description': 'Indulge in wine tasting in Cape Town.', 'destination': 'Cape Town', 'cost': 2700.00, 'origin_city_id': 8, 'destination_city_id': 8, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
+    {'agent_id': 9, 'packagename': 'Canadian Rockies Expedition', 'description': 'Explore the stunning Canadian Rockies.', 'destination': 'Toronto', 'cost': 2300.00, 'origin_city_id': 9, 'destination_city_id': 9, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
+    {'agent_id': 10, 'packagename': 'Hawaiian Island Hopping', 'description': 'Explore multiple islands in Hawaii.', 'destination': 'Honolulu', 'cost': 2800.00, 'origin_city_id': 10, 'destination_city_id': 10, 'valid_from': datetime(2024, 3, 1), 'valid_to': datetime(2024, 12, 31)},
 ]
 
 for data in packages_data:
