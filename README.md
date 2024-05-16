@@ -2,7 +2,7 @@
 
 Welcome to the Travel Chatbot project! This is a smart chatbot designed to provide users with an interactive platform to explore travel packages, destinations, and costs.
 
-<img width="497" alt="image" src="https://github.com/jhalak1509/Travel_Chatbot_Using_ChatGPT/assets/114832299/5e3f8f45-dd5b-4e64-8486-1cc3ea4b6852">
+<img width="1440" alt="image" src="https://github.com/jhalak1509/Travel_Chatbot_Using_ChatGPT/assets/114832299/5e3f8f45-dd5b-4e64-8486-1cc3ea4b6852">
 
 
 ## Technology Stack
