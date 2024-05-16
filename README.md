@@ -1,4 +1,4 @@
-# Travel Chatbot using Django, ChatGPT and NL-SQL
+# Travel Chatbot using Django, GPT and NL-SQL
 
 Welcome to the Travel Chatbot project! This is a smart chatbot designed to provide users with an interactive platform to explore travel packages, destinations, and costs.
 
